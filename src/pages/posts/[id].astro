@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { contentfulClient } from "../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import type { blogPostFields } from "../../lib/contentful";
+
+const { id } = Astro.params;
+const { fields: post } = await contentfulClient.getEntry<blogPostFields>(String(id)).catch(() => {
+  return { fields: undefined };
+});
+
+if (!post) {
+  return Astro.redirect('/404')
+}
+
+---
+
+<Layout title={post.title}>
+  <h1>{post.title}</h1>
+  <time>{post.date}</time>
+  <Fragment set:html={documentToHtmlString(post.content)} />
+</Layout>

@@ -8,12 +8,12 @@ const { items } = await contentfulClient.getEntries<blogPostFields>();
 const posts = items.map((item) => {
   return {
     title: item.fields.title,
+    id: item.sys.id,
     date: new Date(item.fields.date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
     }),
-    slug: item.fields.slug,
     description: item.fields.description,
   };
 });
@@ -31,7 +31,7 @@ const posts = items.map((item) => {
           title={post.title}
           description={post.description}
           date={post.date}
-          slug={post.slug}
+          slug={post.id}
         />
       ))
     }
