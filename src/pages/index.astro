@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { contentfulClient } from "../lib/contentful";
 import type { blogPostFields } from "../lib/contentful";
+import Card from "../components/Card.astro";
 
 const { items } = await contentfulClient.getEntries<blogPostFields>();
 const posts = items.map((item) => {
@@ -13,6 +14,7 @@ const posts = items.map((item) => {
       day: "numeric",
     }),
     slug: item.fields.slug,
+    description: item.fields.description,
   };
 });
 ---
@@ -25,12 +27,12 @@ const posts = items.map((item) => {
   <ul>
     {
       posts.map((post) => (
-        <li>
-          <time>{post.date}</time>
-          <a href={`/posts/${post.slug}/`}>
-            <h2>{post.title}</h2>
-          </a>
-        </li>
+        <Card
+          title={post.title}
+          description={post.description}
+          date={post.date}
+          slug={post.slug}
+        />
       ))
     }
   </ul>

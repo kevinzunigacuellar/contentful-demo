@@ -4,6 +4,7 @@ import type { Document } from "@contentful/rich-text-types";
 export interface blogPostFields {
   title: string;
   date: string;
+  description: string;
   content: Document;
   slug: string;
 }
