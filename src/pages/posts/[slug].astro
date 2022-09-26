@@ -1,0 +1,37 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { contentfulClient } from "../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import type { blogPostFields } from "../../lib/contentful";
+
+export async function getStaticPaths() {
+  const { items } = await contentfulClient.getEntries<blogPostFields>();
+  const pages = items.map((item) => ({
+    params: { slug: item.fields.slug },
+    props: {
+      title: item.fields.title,
+      content: documentToHtmlString(item.fields.content),
+      date: new Date(item.fields.date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+    },
+  }));
+  return pages;
+}
+
+export interface Props {
+  title: string;
+  date: string;
+  content: string;
+}
+
+const { content, title, date } = Astro.props;
+---
+
+<Layout title={title}>
+  <h1>{title}</h1>
+  <time>{date}</time>
+  <Fragment set:html={content} />
+</Layout>

@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { contentfulClient } from "../lib/contentful";
+import type { blogPostFields } from "../lib/contentful";
+
+const { items } = await contentfulClient.getEntries<blogPostFields>();
+const posts = items.map((item) => {
+  return {
+    title: item.fields.title,
+    date: new Date(item.fields.date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }),
+    slug: item.fields.slug,
+  };
+});
+---
+
+<Layout title="Welcome to Astro!">
+  <h1>Welcome to Astro.</h1>
+  <p>
+    Learn more about Astro in the <a href="https://docs.astro.build">docs</a>.
+  </p>
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <time>{post.date}</time>
+          <a href={`/posts/${post.slug}/`}>
+            <h2>{post.title}</h2>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
