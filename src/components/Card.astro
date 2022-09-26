@@ -2,15 +2,15 @@
 export interface Props {
   title: string;
   description: string;
-  slug: string;
+  url: string;
   date: string;
 }
 
-const { slug, title, description, date } = Astro.props;
+const { url, title, description, date } = Astro.props;
 ---
 
 <li>
-  <a href={`/posts/${slug}/`}>
+  <a href={`/posts/${url}/`}>
     <h2>
       {title}
       <span>&rarr;</span>
