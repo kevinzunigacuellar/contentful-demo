@@ -4,19 +4,29 @@ import { contentfulClient } from "../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import type { blogPostFields } from "../../lib/contentful";
 
-const { id } = Astro.params;
-const { fields: post } = await contentfulClient.getEntry<blogPostFields>(String(id)).catch(() => {
-  return { fields: undefined };
-});
-
-if (!post) {
-  return Astro.redirect('/404')
+interface Props {
+  title: string;
+  date: string;
+  content: string;
 }
 
+let post: Props;
+const { id } = Astro.params;
+try {
+  post = await contentfulClient
+    .getEntry<blogPostFields>(String(id))
+    .then((entry) => ({
+      title: entry.fields.title,
+      date: entry.fields.date,
+      content: documentToHtmlString(entry.fields.content),
+    }));
+} catch {
+  return Astro.redirect("/404");
+}
 ---
 
 <Layout title={post.title}>
   <h1>{post.title}</h1>
   <time>{post.date}</time>
-  <Fragment set:html={documentToHtmlString(post.content)} />
+  <Fragment set:html={post.content} />
 </Layout>
