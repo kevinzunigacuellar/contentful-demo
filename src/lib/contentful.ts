@@ -1,7 +1,7 @@
 import contentful from "contentful";
 import type { Document } from "@contentful/rich-text-types";
 
-export interface blogPostFields {
+export interface blogPost {
   title: string;
   date: string;
   description: string;
