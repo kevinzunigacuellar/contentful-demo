@@ -18,7 +18,7 @@ try {
     content: documentToHtmlString(content),
   };
 } catch (error) {
-  Astro.redirect("/404");
+  return Astro.redirect("/404");
 }
 ---
 
