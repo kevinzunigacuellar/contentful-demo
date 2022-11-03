@@ -19,12 +19,12 @@ const posts = items.map((item) => {
 });
 ---
 
-<Layout title="Welcome to Astro!">
-  <h1>Welcome to Astro.</h1>
+<Layout title="Welcome to Astro & Contentful">
+  <h1>Astro & Contentful</h1>
   <p>
     Learn more about Astro in the <a href="https://docs.astro.build">docs</a>.
   </p>
-  <ul>
+  <div>
     {
       posts.map((post) => (
         <Card
@@ -35,5 +35,5 @@ const posts = items.map((item) => {
         />
       ))
     }
-  </ul>
+  </div>
 </Layout>

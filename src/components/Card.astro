@@ -9,15 +9,12 @@ export interface Props {
 const { url, title, description, date } = Astro.props;
 ---
 
-<li>
-  <a href={`/posts/${url}/`}>
-    <h2>
-      {title}
-      <span>&rarr;</span>
-    </h2>
+<div>
+  <time class="block text-gray-500 text-sm">{date}</time>
+  <a href={`/posts/${url}/`} class="block text-2xl no-underline">
+    {title}
   </a>
-  <time>{date}</time>
   <p>
     {description}
   </p>
-</li>
+</div>
